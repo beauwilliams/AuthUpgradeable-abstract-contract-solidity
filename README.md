@@ -24,3 +24,7 @@ You might want to have functions that can be called by authorised wallets, rathe
 - Import the AuthUpgradeable.sol file into your smart contract `import "./AuthUpgradeable.sol";`
 - add the `is AuthUpgradeable` dependency to your smart contract
 - add `authorised` decorator to functions you wish to allow authorised wallets to call
+
+# Disclaimer
+
+Not fully tested. Use at your discretion
