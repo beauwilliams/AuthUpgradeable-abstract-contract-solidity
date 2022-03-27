@@ -26,8 +26,9 @@ abstract contract AuthUpgradeable is Initializable, UUPSUpgradeable, ContextUpgr
     * @dev See: https://docs.openzeppelin.com/contracts/4.x/upgradeable#multiple-inheritance
     */
     function __AuthUpgradeable_init_unchained() internal onlyInitializing {
-        //NOTE: We use _msgSender() function because the msg.sender will return the proxy contract address during upgrade
-        //We use the ContextUpgradable Library to import the _msgSender() function
+        //NOTE: We use _msgSender() function to retreive contract owner address because 
+        //msg.sender variable will refer to the proxy contract address when deploying upgrades
+        //the ContextUpgradable dependency is added to import the _msgSender() function
         owner = _msgSender();
         authorisations[_msgSender()] = true;
       __UUPSUpgradeable_init();
