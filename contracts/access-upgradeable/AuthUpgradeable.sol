@@ -38,25 +38,25 @@ abstract contract AuthUpgradeable is Initializable, UUPSUpgradeable, ContextUpgr
     }
 
     modifier authorised() {
-        require(isAuthorised(msg.sender)); _;
+        require(isAuthorised(_msgSender())); _;
     }
 
-    function authorise(address adr) public onlyOwner {
-        authorisations[adr] = true;
-        emit Authorised(adr);
+    function authorise(address _address) public onlyOwner {
+        authorisations[_address] = true;
+        emit Authorised(_address);
     }
 
-    function unauthorise(address adr) public onlyOwner {
-        authorisations[adr] = false;
-        emit Unauthorised(adr);
+    function unauthorise(address _address) public onlyOwner {
+        authorisations[_address] = false;
+        emit Unauthorised(_address);
     }
 
-    function isOwner(address account) public view returns (bool) {
-        return account == owner;
+    function isOwner(address _address) public view returns (bool) {
+        return _address == owner;
     }
 
-    function isAuthorised(address adr) public view returns (bool) {
-        return authorisations[adr];
+    function isAuthorised(address _address) public view returns (bool) {
+        return authorisations[_address];
     }
 
     function transferOwnership(address newOwner) public onlyOwner {
@@ -69,8 +69,8 @@ abstract contract AuthUpgradeable is Initializable, UUPSUpgradeable, ContextUpgr
     }
 
     event OwnershipTransferred(address oldOwner, address newOwner);
-    event Authorised(address adr);
-    event Unauthorised(address adr);
+    event Authorised(address _address);
+    event Unauthorised(address _address);
 
 
     /**
