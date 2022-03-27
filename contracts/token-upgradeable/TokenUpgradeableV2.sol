@@ -13,7 +13,7 @@ import "../access-upgradeable/AuthUpgradeable.sol";
  */
 
 
-contract TokenUpgradeable is Initializable, UUPSUpgradeable, ERC20Upgradeable, AuthUpgradeable {
+contract TokenUpgradeableV2 is Initializable, UUPSUpgradeable, ERC20Upgradeable, AuthUpgradeable {
     function initialize() initializer public {
       __UUPSUpgradeable_init();
       __AuthUpgradeable_init();
@@ -26,4 +26,9 @@ contract TokenUpgradeable is Initializable, UUPSUpgradeable, ERC20Upgradeable, A
     }
 
     function _authorizeUpgrade(address) internal override authorised {}
+
+
+    function exampleUpgrade() external view authorised returns(string memory)  {
+        return "upgraded";
+    }
 }

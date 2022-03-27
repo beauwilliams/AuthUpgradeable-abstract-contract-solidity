@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { ethers } from "hardhat";
+import { ethers, upgrades } from 'hardhat';
 async function main() {
   console.log("deploying token contract");
   const TokenUpgradeable = await ethers.getContractFactory("TokenUpgradeable");

@@ -1,15 +1,25 @@
-
-const { ethers, upgrades } = require("hardhat");
+import * as fs from 'fs';
+import { ethers, upgrades } from 'hardhat';
+import { tokenaddress } from '../cache/deploy';
 
 //Specify the existing address of the contract you wish to upgrade here
-const CONTRACT_ADDRESS = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0342";
+const CONTRACT_ADDRESS = tokenaddress;
 //Specify the name of the contract to be upgraded here.
 const CONTRACT_NAME='TokenUpgradeableV2'
 
 async function main() {
   const UpgradedContract = await ethers.getContractFactory(CONTRACT_NAME);
-  const res = await upgrades.upgradeProxy(CONTRACT_ADDRESS, UpgradedContract);
-  console.log(res.address);
+  const token = await upgrades.upgradeProxy(CONTRACT_ADDRESS, UpgradedContract);
+  console.log(token.address);
+
+  console.log('saving contract addresses to cache/deploy.ts');
+  let deployments = `
+  export const tokenaddress = "${token.address}"
+  `
+
+  let data = JSON.stringify(deployments)
+  fs.writeFileSync('cache/deploy.ts', JSON.parse(data))
+
 
 }
 
