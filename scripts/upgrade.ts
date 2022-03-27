@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import { ethers, upgrades } from 'hardhat';
 import { tokenaddress } from '../cache/deploy';
 
@@ -9,17 +8,12 @@ const CONTRACT_NAME='TokenUpgradeableV2'
 
 async function main() {
   const UpgradedContract = await ethers.getContractFactory(CONTRACT_NAME);
-  const token = await upgrades.upgradeProxy(CONTRACT_ADDRESS, UpgradedContract);
-  console.log(token.address);
-
-  console.log('saving contract addresses to cache/deploy.ts');
-  let deployments = `
-  export const tokenaddress = "${token.address}"
-  `
-
-  let data = JSON.stringify(deployments)
-  fs.writeFileSync('cache/deploy.ts', JSON.parse(data))
-
+  try {
+    await upgrades.upgradeProxy(CONTRACT_ADDRESS, UpgradedContract);
+    console.log('upgraded successfully');
+  } catch (e) {
+    console.log(e);
+  }
 
 }
 

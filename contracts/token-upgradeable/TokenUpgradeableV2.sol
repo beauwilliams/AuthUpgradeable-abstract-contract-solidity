@@ -20,11 +20,6 @@ contract TokenUpgradeableV2 is Initializable, UUPSUpgradeable, ERC20Upgradeable,
       __ERC20_init("TokenUpgradeable", "TKU");
     }
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() initializer {
-        initialize();
-    }
-
     function _authorizeUpgrade(address) internal override authorised {}
 
 
