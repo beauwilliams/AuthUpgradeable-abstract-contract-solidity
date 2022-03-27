@@ -3,7 +3,7 @@ pragma solidity >=0.7.0;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
 
 /**
  * @title Auth Contract
@@ -11,7 +11,7 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
  * @dev Smart contract for Auth controls
  */
 
-abstract contract AuthUpgradeable is UUPSUpgradeable{
+abstract contract AuthUpgradeable is Initializable, UUPSUpgradeable, ContextUpgradeable {
     address owner;
     mapping (address => bool) private authorisations;
 
@@ -26,13 +26,15 @@ abstract contract AuthUpgradeable is UUPSUpgradeable{
     * @dev See: https://docs.openzeppelin.com/contracts/4.x/upgradeable#multiple-inheritance
     */
     function __AuthUpgradeable_init_unchained() internal onlyInitializing {
-        owner = msg.sender;
-        authorisations[msg.sender] = true;
+        //NOTE: We use _msgSender() function because the msg.sender will return the proxy contract address during upgrade
+        //We use the ContextUpgradable Library to import the _msgSender() function
+        owner = _msgSender();
+        authorisations[_msgSender()] = true;
       __UUPSUpgradeable_init();
     }
 
     modifier onlyOwner() {
-        require(isOwner(msg.sender)); _;
+        require(isOwner(_msgSender())); _;
     }
 
     modifier authorised() {
