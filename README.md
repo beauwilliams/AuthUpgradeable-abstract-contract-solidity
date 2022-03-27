@@ -6,6 +6,8 @@ Compatible with OpenZeppelins upgradeable contracts
 
 Shown here is an example with ERC20Upgradeable token
 
+[See the AuthUpgradeable contract here](https://github.com/beauwilliams/AuthUpgradeable-abstract-contract-solidity/blob/main/contracts/access-upgradeable/AuthUpgradeable.sol) 
+
 
 # Why not just use onlyOwner
 
